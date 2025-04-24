@@ -73,10 +73,20 @@ function updateDashboard() {
     document.getElementById('todayRevenue').textContent = '$' + calculateTodayRevenue();
 }
 
+// Calculate today's revenue dynamically based on bookings
 function calculateTodayRevenue() {
-    // In a real app, this would calculate based on check-ins/check-outs
-    // For demo, we'll just use a fixed value
-    return 599;
+    let totalRevenue = 0;
+
+    // Iterate through current bookings and sum up room prices
+    bookings.forEach(booking => {
+        // Find the room associated with the booking
+        const room = rooms.find(r => r.id === booking.roomId);
+        if (room && booking.status === 'current') {
+            totalRevenue += room.price;
+        }
+    });
+
+    return totalRevenue;
 }
 
 // Dashboard button handlers
